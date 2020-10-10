@@ -53,7 +53,7 @@ colors <- c( # Color palette
 plot_options <- list( 
   plot_width = 15, # Plot width in cm
   plot_height = 12, # Plot height in cm
-  plot_format = 'pdf' # The output format of your time line
+  plot_format = 'png' # The output format of your time line
   )
 ##
 ## ------------------------------------------------------------------------- ##
@@ -63,7 +63,7 @@ plot_options <- list(
 ####' ----- Load time line information #### 
 timeline_table <- read_csv(
   file = "timeline.csv", 
-  col_types = cols(activity = col_factor())
+  col_types = cols(activity = col_factor(), section = col_factor())
   )
 
 ####' ----- Mutate variables #### 
@@ -71,8 +71,7 @@ timeline_table %<>%
   mutate(
     activity = reorder(activity, desc(activity)),
     start = dmy(start),
-    end = dmy(end),
-    section = factor(section)
+    end = dmy(end)
     )
 
 ####' ----- Convert tibble to long format #### 
