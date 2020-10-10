@@ -14,6 +14,7 @@ colors, you can set all section values to NA.
 
 This is an example of the .csv file to be read by the script.
 
+
 | id 	| activity                                  	| start      	| end        	| section 	|
 |----	|-------------------------------------------	|------------	|------------	|---------	|
 | 1  	| PhD courses                               	| 01-01-2021 	| 01-06-2022 	| NA      	|
@@ -29,6 +30,8 @@ This is an example of the .csv file to be read by the script.
 | 11 	| Reporting to funders                      	| 01-06-2024 	| 01-01-2025 	| NA      	|
 | 12 	| Preparation of scientific publications    	| 01-01-2023 	| 01-01-2025 	| NA      	|
 
+
 And this is the resulting plot:
+
 
 ![Beautiful time line](timeline.png)
