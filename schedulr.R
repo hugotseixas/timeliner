@@ -4,31 +4,32 @@
 ##
 #### Description ####
 ##
-## Script name:   
+## Script name:   Create a research time line
 ##
-## Description:    
-##                 
-##                
-##                 
-##                
-##                 
-##                
-##                
+## Description:   This is a simple routine that reads a .csv file with research
+##                tasks and their start and end dates, and plots a beautiful
+##                research time line. Each individual task should have a unique
+##                id, and you can group your tasks into sections, which will
+##                be plotted in different colors, using a colorblind safe
+##                palette. The palette is composed of 9 colors, if you exceed
+##                this number of sections, consider reducing it or increasing
+##                the number of colors of the palette. If you don't want 
+##                colors, you can set all section values to NA.
 ##
-## Author:        Hugo Tameirao Seixas
+## Author:        Hugo Tameirão Seixas
 ## Contact:       hugo.seixas@alumni.usp.br / tameirao.hugo@gmail.com
 ##
-## Date created:  
-## Last update:   
-## Last tested:   
+## Date created:  2020-09-02
+## Last update:   2020-10-10
+## Last tested:   2020-10-10
 ##
-## Copyright (c) Hugo Tameirao Seixas, 2020
+## Copyright (c) Hugo Tameirão Seixas, 2020
 ##
 ## ------------------------------------------------------------------------- ##
 ##
-## Notes:           
-##                  
-##                               
+## Notes:         The color palette was copied from Paul Tol"s notes: 
+##                https://personal.sron.nl/~pault/
+##                https://personal.sron.nl/~pault/data/colourschemes.pdf
 ##
 ## ------------------------------------------------------------------------- ##
 ##
@@ -36,26 +37,37 @@
 ##
 library(magrittr)
 library(lubridate)
+library(glue)
 library(tidyverse)
 ##
 ## ------------------------------------------------------------------------- ##
 ##
 #### Options ####
 ##
-options(scipen = 6, digits = 4) # View outputs in non-scientific notation
+colors <- c( # Color palette
+  "#332288", "#88CCEE", "#44AA99", 
+  "#117733", "#999933", "#DDCC77", 
+  "#CC6677", "#882255", "#AA4499"
+  ) 
+
+plot_options <- list( 
+  plot_width = 15, # Plot width in cm
+  plot_height = 12, # Plot height in cm
+  plot_format = 'pdf' # The output format of your time line
+  )
 ##
 ## ------------------------------------------------------------------------- ##
 ####* ------------------------------- CODE ------------------------------ *####
 ## ------------------------------------------------------------------------- ##
 
-####' ----- Load schedule information #### 
-timeline <- read_csv(
-  file = 'timeline.csv', 
+####' ----- Load time line information #### 
+timeline_table <- read_csv(
+  file = "timeline.csv", 
   col_types = cols(activity = col_factor())
   )
 
 ####' ----- Mutate variables #### 
-timeline %<>%
+timeline_table %<>%
   mutate(
     activity = reorder(activity, desc(activity)),
     start = dmy(start),
@@ -64,45 +76,48 @@ timeline %<>%
     )
 
 ####' ----- Convert tibble to long format #### 
-timeline %<>%
+timeline_table %<>%
   gather(
-    key = 'when', 
-    value = 'date', 
+    key = "when", 
+    value = "date", 
     start, 
     end
     )
 
-####' ----- Set palette #### 
-colors <- c('#577590', '#BCAA99', '#ED9B40', '#BA3B46')
-
-####' ----- Plot schedule #### 
-ggplot(data = timeline) +
+####' ----- Plot time line #### 
+(timeline_plot <- timeline_table %>%
+  ggplot() +
   geom_line(
     aes(x = date, y = activity, group = id, color = section), 
     size = 3, 
-    lineend = 'round'
+    lineend = "round"
     ) +
-  scale_x_date(date_labels = '%Y') +
+  scale_x_date(date_labels = "%Y") +
   scale_colour_manual(
     values = colors, 
-    na.value = 'gray40', 
-    breaks = levels(timeline$section)
+    na.value = "#DDDDDD", 
+    breaks = levels(timeline_table$section)
     ) +
-  labs(color = 'Section') +
+  labs(color = "Section") +
   theme_minimal() + 
   theme(
     text = element_text(family = "sans", size = 12), 
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 40, vjust = 0.6),
     plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm"),
-    legend.position = 'bottom'
-    ) +
+    legend.position = "bottom"
+    ))
+
+####' ----- Save time line #### 
+timeline_plot %>%
   ggsave(
-    filename = 'schedule.pdf', 
-    width = 15, 
-    height = 12, 
-    units = 'cm'
+    filename = glue("timeline.{plot_options$plot_format}"), 
+    width = plot_options$plot_width, 
+    height = plot_options$plot_height, 
+    units = "cm"
     )
+
+try(praise::praise("${EXCLAMATION}! Your time line is so ${adjective}!"))
 
 ## ------------------------------------------------------------------------- ##
 ####* ------------------------------- END ------------------------------- *####
