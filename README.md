@@ -31,4 +31,4 @@ This is an example of the .csv file to be read by the script.
 
 And this is the resulting plot:
 
-![Beautiful time line](timeline.pdf)
+![Beautiful time line](timeline.png)
