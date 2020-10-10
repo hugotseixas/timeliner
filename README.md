@@ -30,7 +30,7 @@ This is an example of the .csv file to be read by the script.
 | 11 	| Reporting to funders                      	| 01-06-2024 	| 01-01-2025 	| NA      	|
 | 12 	| Preparation of scientific publications    	| 01-01-2023 	| 01-01-2025 	| NA      	|
 
-The columns of the .csv file should be extatly like the table above. The **id** column must be a unique number for each task. The **activity** is a string (it should not be too long, to avoid that most of the plot being occupied by the text). The **start** and **end** columns shoul be filled with dates following the format DD-MM-YYYY. The **section** column can be filled with numbers or strings, since the routine reads it as a factor, the NA values will be plotted as gray segments.
+The columns of the .csv file should be extatly like the table above. The **id** column must be a unique number for each task. The **activity** is a string (it should not be too long, to avoid that most of the plot being occupied by the text). The **start** and **end** columns shoul be filled with dates following the format DD-MM-YYYY. The **section** column can be filled with numbers or characters, since the routine reads it as a factor, the NA values will be plotted as gray segments.
 
 This is the resulting plot:
 
