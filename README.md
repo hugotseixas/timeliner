@@ -31,5 +31,4 @@ This is an example of the .csv file to be read by the script.
 
 And this is the resulting plot:
 
-![Beautiful time lne](https://github.com/hugotseixas/timeliner/blob/main/timeline.pdf?sanitize=true)
-<img src="https://github.com/hugotseixas/timeliner/blob/main/timeline.pdf?sanitize=true">
+![Beautiful time line](timeline.pdf)
